@@ -1,9 +1,11 @@
+import SignButton from '@/app/components/SignButton'
 import React from 'react'
 
 export default function page() {
   return (
     <div>
-        login
+      <p>login with </p>
+      <SignButton />
     </div>
   )
 }

@@ -1,9 +1,16 @@
+"use server";
 import { dancing_script } from "@/app/ui/font";
+import { auth } from "@/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { SearchIcon } from "lucide-react";
 import Link from "next/link";
 import MobileMenu from "./MobileMenu";
 
-export const Navbar = () => {
+export const Navbar = async () => {
+  const session = await auth();
+
   return (
     <>
       {/* <div className=" absolute bottom-4 left-4 ">
@@ -14,8 +21,8 @@ export const Navbar = () => {
         <span className="hidden lg:block sm:hidden xl:hidden">LG</span>
         <span className="hidden xl:block lg:hidden ">XL</span>
       </div> */}
-      <div className=" px-12 py-5 flex items-center justify-between max-md:hidden shadow-md ">
-        <span className="bg-red-200">
+      <div className=" px-12 py-5 flex justify-between items-center max-md:hidden shadow-md ">
+        <span className="">
           {" "}
           <Link
             href="/"
@@ -24,29 +31,53 @@ export const Navbar = () => {
           </Link>
         </span>
 
-        <div className="flex space-x-2">
+        <div className="flex space-x-20">
           <div>
             {" "}
-            <Link href="\"> Womans</Link>
+            <Link
+              href="\"
+              className="hover:text-pink-300 ease-out duration-200">
+              {" "}
+              Womans
+            </Link>
           </div>
           <div>
             {" "}
-            <Link href="\"> Men</Link>
+            <Link
+              href="\"
+              className="hover:text-pink-300 ease-out duration-200">
+              {" "}
+              Men
+            </Link>
           </div>
           <div>
             {" "}
-            <Link href="\"> Child</Link>
+            <Link
+              href="\"
+              className="hover:text-pink-300 ease-out duration-200">
+              {" "}
+              Child
+            </Link>
           </div>
         </div>
-
+        <div className="flex items-center">
+          <Input type="search" name="search" id="search" placeholder="Search" />
+          <SearchIcon />
+        </div>
         <div className="flex">
           {" "}
-          <div className=" m-2">
-            <Link href="/signin"> Se connecter</Link>
+          <div className="">
+            <Button>
+              {" "}
+              <Link href="/signin">Se connecter/ S&apos;inscrire </Link>
+            </Button>
           </div>
           <div>
             <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" alt="Profile" />
+              <AvatarImage
+                src={session?.user?.image || "https://github.com/shadcn.png"}
+                alt="Profile"
+              />
               <AvatarFallback>PP</AvatarFallback>
             </Avatar>
           </div>

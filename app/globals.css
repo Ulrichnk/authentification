@@ -2,6 +2,21 @@
   @tailwind components;
   @tailwind utilities;
 
+
+  /* reset.css */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+
+
+
   @layer base {
     :root {
       --background: 0 0% 100%;
