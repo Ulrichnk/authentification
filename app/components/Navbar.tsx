@@ -6,16 +6,16 @@ import MobileMenu from "./MobileMenu";
 export const Navbar = () => {
   return (
     <>
-      <div className=" absolute bottom-4 left-4 ">
+      {/* <div className=" absolute bottom-4 left-4 ">
         <span className="text-2xl text-pink-300">Echoppe Parfaite</span>
         <span className="sm:hidden ">XS</span>
         <span className="hidden sm:block md:hidden ">SM</span>
         <span className="hidden md:block lg:hidden ">MD</span>
         <span className="hidden lg:block sm:hidden xl:hidden">LG</span>
         <span className="hidden xl:block lg:hidden ">XL</span>
-      </div>
-      <div className=" mx-12 my-5 flex items-center justify-between max-md:hidden ">
-        <span className="">
+      </div> */}
+      <div className=" px-12 py-5 flex items-center justify-between max-md:hidden shadow-md ">
+        <span className="bg-red-200">
           {" "}
           <Link
             href="/"
@@ -42,7 +42,6 @@ export const Navbar = () => {
         <div className="flex">
           {" "}
           <div className=" m-2">
-
             <Link href="/signin"> Se connecter</Link>
           </div>
           <div>
