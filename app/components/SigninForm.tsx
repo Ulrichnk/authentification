@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import SignButton from "./SignButton";
 
 const formSchema = z.object({
   username: z
@@ -142,10 +143,8 @@ export const SigninForm = () => {
           <p className="flex item-center"> ou </p>
         </CardContent>
 
-        <CardFooter className="flex flex-wrap ">
-          <Button>Signin with google</Button>
-          <Button>Signin with facebook</Button>
-          <Button>Signin with tik tok</Button>
+        <CardFooter className="w-[350px] bg-red-700">
+          <SignButton />
         </CardFooter>
       </Card>
     </div>
