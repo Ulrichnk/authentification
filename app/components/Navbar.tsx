@@ -6,17 +6,25 @@ import MobileMenu from "./MobileMenu";
 export const Navbar = () => {
   return (
     <>
-      <div className="flex items-center justify-between">
-        <div className="">
+      <div className=" absolute bottom-4 left-4 ">
+        <span className="text-2xl text-pink-300">Echoppe Parfaite</span>
+        <span className="sm:hidden ">XS</span>
+        <span className="hidden sm:block md:hidden ">SM</span>
+        <span className="hidden md:block lg:hidden ">MD</span>
+        <span className="hidden lg:block sm:hidden xl:hidden">LG</span>
+        <span className="hidden xl:block lg:hidden ">XL</span>
+      </div>
+      <div className=" mx-12 my-5 flex items-center justify-between max-md:hidden ">
+        <span className="">
           {" "}
           <Link
             href="/"
-            className={`${dancing_script.className} font-bold text-4xl text-pink-300 md:hover:text-pink-400`}>
+            className={`${dancing_script.className} font-bold text-2xl text-pink-300 md:hover:text-pink-400`}>
             ECHOPPE PARFAITE
           </Link>
-        </div>
+        </span>
 
-        <div className="flex space-x-1">
+        <div className="flex space-x-2">
           <div>
             {" "}
             <Link href="\"> Womans</Link>
@@ -33,8 +41,8 @@ export const Navbar = () => {
 
         <div className="flex">
           {" "}
-          <div className="">
-            {" "}
+          <div className=" m-2">
+
             <Link href="/signin"> Se connecter</Link>
           </div>
           <div>
@@ -44,11 +52,9 @@ export const Navbar = () => {
             </Avatar>
           </div>
         </div>
-
-        <div className="">
-          <MobileMenu />
-        </div>
-        
+      </div>
+      <div className=" ">
+        <MobileMenu />
       </div>
     </>
   );
