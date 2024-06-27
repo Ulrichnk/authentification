@@ -1,11 +1,9 @@
-import SignButton from '@/app/components/SignButton'
-import React from 'react'
+import LogSignForm from "@/app/components/LogSignForm";
 
-export default function page() {
+export default function Page() {
   return (
-    <div>
-      <p>login with </p>
-      <SignButton />
-    </div>
-  )
+    <>
+      <LogSignForm />
+    </>
+  );
 }

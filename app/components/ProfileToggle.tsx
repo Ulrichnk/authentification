@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { User } from "next-auth";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getUser } from "../utils";
 
@@ -49,7 +50,9 @@ export const ProfileToggle = () => {
 
       <DropdownMenuContent align="end">
         {" "}
-        <DropdownMenuItem>{user?.name || "not connected"}</DropdownMenuItem>
+        <DropdownMenuItem>
+          {user?.name || <Link href="/login">Se connecter</Link>}
+        </DropdownMenuItem>
         <DropdownMenuItem> {user?.email || "not connected"}</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

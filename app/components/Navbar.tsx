@@ -51,7 +51,7 @@ export const Navbar = async () => {
             <>
               {!session ? (
                 <Dialog>
-                  <DialogTrigger className=" bg-pink-300 rounded-lg p-1 ">Se connecter/ S&apos;inscrire</DialogTrigger>
+                  <DialogTrigger className=" bg-pink-300 rounded-lg p-1 text-xs ">Se connecter/ S&apos;inscrire</DialogTrigger>
                   <DialogContent>
                     <LogSignForm />
                   </DialogContent>
