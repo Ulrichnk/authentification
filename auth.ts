@@ -8,7 +8,7 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
-  adapter: PrismaAdapter(prisma ),
+  // adapter: PrismaAdapter(prisma ),
 
   providers: [
     Credentials({
