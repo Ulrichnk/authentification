@@ -28,35 +28,56 @@ import { useForm } from "react-hook-form";
 import SignButton from "./SignButton";
 
 const formSchema = z.object({
+  username: z
+    .string()
+    .min(3, { message: "Username must be at least characters" })
+    .max(20, { message: "Username must be at most 20 characters" }),
   email: z.string().email(),
   password: z.string().min(6),
 });
 
-export const SigninForm = () => {
+export const LoginForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { email: "", password: "" },
+    defaultValues: { username: "", email: "", password: "" },
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data.email, data.password);
+    console.log(data.username, data.email, data.password);
     return <Alert>Check the console for form data.</Alert>;
   }
   return (
-
     <>
       <Card className=" w-[400px]  shadow-lg">
         <CardHeader className="flex items-center ">
-          <CardTitle>Sign In</CardTitle>
+          <CardTitle>Log In</CardTitle>
 
           <CardDescription className="justify-center items-center">
-            Sign in with your email and password
+            login with your username
           </CardDescription>
         </CardHeader>
 
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
+              <FormField
+                name="username"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="username">Username</FormLabel>
+                    <FormControl>
+                      <Input
+                        name="username"
+                        placeholder=" Input your username"></Input>
+                    </FormControl>
+                    <FormDescription>
+                      {form.formState.errors.username?.message}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 name="email"
                 control={form.control}
@@ -97,8 +118,8 @@ export const SigninForm = () => {
               />
 
               <div className="flex justify-around m-5">
-                <Button type="submit" size="lg" className=" mr-5">
-                  Signin
+                <Button size="lg" className="mr-5">
+                  Login
                 </Button>
               </div>
             </form>{" "}
@@ -114,4 +135,4 @@ export const SigninForm = () => {
   );
 };
 
-export default SigninForm;
+export default LoginForm;

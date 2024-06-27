@@ -1,6 +1,6 @@
 "use server";
 
-import { signIn } from "@/auth";
+import { auth, signIn, signOut } from "@/auth";
 
 export async function doSocialSignin(provider: string) {
   const response = await fetch(`/api/auth/signin/${provider}`, {
@@ -24,6 +24,15 @@ export async function doSocialLogin(formData: any) {
   const action = formData.get("action");
   console.log(action);
   if (action) {
-    await signIn(action, { redirectTo: "/home" });
+    await signIn(action, { redirectTo: "/" });
   }
+}
+
+export async function doSignOut() {
+  await signOut({ redirectTo: "/" });
+}
+
+export async function getUser() {
+  const session = await auth();
+  return session?.user;
 }

@@ -2,17 +2,16 @@ import { Button } from "@/components/ui/button";
 import { doSocialLogin } from "../utils";
 const SignButton = ({ ...props }) => {
   return (
-    <form action={doSocialLogin} className="flex space-x-2">
+    <form action={doSocialLogin} className="grid grid-cols-2 gap-3 items-center">
       <Button type="submit" name="action" value="google">
-        Signin with google
+        Sign in with google
       </Button>
       <Button type="submit" name="action" value="facebook">
-        Signin with facebook
+        Sign in with facebook
       </Button>
       <Button type="submit" name="action" value="tik_tok">
-        Signin with tik tok
+        Sign in with tik tok
       </Button>
-      s
     </form>
   );
 };
