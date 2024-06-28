@@ -1,8 +1,9 @@
+import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Navbar from "./components/Navbar";
 import { ThemeProvider } from "./components/themeProvider";
 import "./globals.css";
-import Navbar from "./components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,14 +21,13 @@ export default function RootLayout({
   // useEffect(() => {}, [session]);
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={cn(inter.className)}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange>
           <Navbar />
-
           {children}
         </ThemeProvider>
       </body>
