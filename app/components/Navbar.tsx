@@ -15,12 +15,14 @@ import SignOutButton from "./signOutButton";
 
 export const Navbar = async () => {
   const session = await auth();
-
+  // className=" sticky z-[100] inset-x-0 top-0 w-auto border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all"
   return (
     <>
-      <nav className=" sticky z-[100] inset-x-0 top-0 w-auto border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
-        <MaxWidthWrapper>
-          <div className="flex flex-col justify-center  px-12  max-md:hidden  ">
+      <nav className=" sticky z-[100] inset-x-0 top-0 w-auto border-b border-gray-200 bg-white/75 transition-all">
+        <MaxWidthWrapper >
+          <div className="flex flex-col justify-center  px-12  max-md:hidden       
+           
+          ">
             {/* <div className=" absolute bottom-4 left-4 ">
         <span className="text-2xl text-pink-300">Echoppe Parfaite</span>
         <span className="sm:hidden ">XS</span>
