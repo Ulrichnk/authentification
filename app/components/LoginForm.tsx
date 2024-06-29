@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import SignButton from "./SignButton";
+import SignButton from "./SocialSignin";
 
 const formSchema = z.object({
   username: z
@@ -117,8 +117,8 @@ export const LoginForm = () => {
                 )}
               />
 
-              <div className="flex justify-around m-5">
-                <Button size="lg" className="mr-5">
+              <div className="">
+                <Button size="lg" className=" w-full my-5">
                   Login
                 </Button>
               </div>

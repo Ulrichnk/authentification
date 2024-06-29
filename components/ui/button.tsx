@@ -32,8 +32,9 @@ const buttonVariants = cva(
           "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
         destructive: "bg-red-500 text-white hover:bg-red-600",
         secondary: "bg-blue-500 text-white hover:bg-blue-600",
-        ghost:
-          "bg-transparent text-pink-400 hover:bg-pink-400 hover:text-white",
+        ghost:"bg-transparent text-pink-400 hover:bg-pink-400 hover:text-white",
+        ghost1: "hover:bg-accent hover:text-accent-foreground",
+
         link: "text-pink-400 underline-offset-4 hover:underline",
         new: "bg-none border-none p-0 m-0 text-inherit font-inherit cursor-pointer outline-none",
       },
@@ -41,6 +42,7 @@ const buttonVariants = cva(
     defaultVariants: {
       variant: "default",
       size: "default",
+      // var: "default",
     },
   }
 );

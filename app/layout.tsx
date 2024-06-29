@@ -1,9 +1,10 @@
+"use ";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Navbar from "./components/Navbar";
 import { ThemeProvider } from "./components/themeProvider";
 import "./globals.css";
+import Navigation from "./navigation/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,7 @@ export default function RootLayout({
 }>) {
   // const [session, setSession] = useState<Session | null>(null);
   // useEffect(() => {}, [session]);
+
   return (
     <html lang="en">
       <body className={cn(inter.className)}>
@@ -27,7 +29,7 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange>
-          <Navbar />
+          <Navigation />
           {children}
         </ThemeProvider>
       </body>
