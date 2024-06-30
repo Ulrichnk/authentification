@@ -1,6 +1,8 @@
+import NextAuth from "next-auth";
 import { NextRequest } from "next/server";
+import { authConfig } from "./auth.config";
 
-// export default NextAuth(authConfig).auth;
+export default NextAuth(authConfig).auth;
 
 export const config = {
   // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
@@ -8,12 +10,12 @@ export const config = {
   matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };
 
-export default async function middleware(req: NextRequest) {
-  console.log("ROUTE", req.nextUrl.pathname);
-  // return NextResponse.redirect(new URL('/admin/dashboard', req.url))
-}
+// export default async function middleware(req: NextRequest) {
+//   console.log("ROUTE", req.nextUrl.pathname);
+//   // return NextResponse.redirect(new URL('/admin/dashboard', req.url))
+// }
 
-// export { auth as middleware } from "@/auth";
+export { auth as middleware } from "@/auth";
 
 // import { auth } from "@/auth";
 // // export default NextAuth(authConfig).auth;

@@ -1,22 +1,17 @@
 import { authConfig } from "@/auth.config";
-import NextAuth, { CredentialsSignin } from "next-auth";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { PrismaClient } from "@prisma/client";
+import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { PrismaAdapter } from "@auth/prisma-adapter"
-import { PrismaClient } from "@prisma/client"
-import { emit } from "process";
-import { getUser } from "./app/utils";
-import { getUserByEmail } from "./data/user";
-import { compare } from "bcrypt";
- 
-const prisma = new PrismaClient()
+
+const prisma = new PrismaClient();
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
-  adapter: PrismaAdapter(prisma ),
+  adapter: PrismaAdapter(prisma),
 
   providers: [
     Credentials({
-      name: "Credentials",
       credentials: {
         // username: { label: "Username",type: "text"},
         password: { label: "Password", type: "password" },
