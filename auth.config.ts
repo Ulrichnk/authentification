@@ -1,21 +1,29 @@
-import type { NextAuthConfig } from 'next-auth';
- 
-export const authConfig = {
-  pages: {
-    signIn: '/auth/login',
-  },
-  callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user;
-      const isOnDashboard = nextUrl.pathname.startsWith('/admin/dashboard');
-      if (isOnDashboard) {
-        if (isLoggedIn) return true;
-        return false; // Redirect unauthenticated users to login page
-      } else if (isLoggedIn) {
-        return Response.redirect(new URL('/admin/dashboard', nextUrl));
-      }
-      return true;
-    },
-  },
-  providers: [], // Add providers with an empty array for now
+import bcrypt from "bcryptjs";
+import { NextAuthConfig } from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+import { getUserByEmail } from "./data/user";
+import { LoginSchema } from "./type";
+
+export default {
+  providers: [
+    Credentials({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+    }),
+    GoogleProvider({
+      clientId: process.env.AUTH_GOOGLE_CLIENT_ID,
+      clientSecret: process.env.AUTH_GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
+    }),
+  ], // Add providers with an empty array for now
 } satisfies NextAuthConfig;

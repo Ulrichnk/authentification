@@ -1,8 +1,14 @@
+// export default NextAuth(authConfig).auth;
 import NextAuth from "next-auth";
-import { NextRequest } from "next/server";
-import { authConfig } from "./auth.config";
+import authConfig from "./auth.config";
+import {
+  DEFAULT_LOGIN_REDIRECT,
+  apiAuthPrefix,
+  authRoutes,
+  publicRoutes,
+} from "./route";
 
-export default NextAuth(authConfig).auth;
+const { auth } = NextAuth(authConfig);
 
 export const config = {
   // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
@@ -10,12 +16,34 @@ export const config = {
   matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };
 
-// export default async function middleware(req: NextRequest) {
-//   console.log("ROUTE", req.nextUrl.pathname);
-//   // return NextResponse.redirect(new URL('/admin/dashboard', req.url))
-// }
+export async function middleware(req: any) {
+  const { nextUrl } = req;
+  const isLoggedIn = !!req.auth;
+  // console.log("ROUTE", req.nextUrl.pathname);
+  // // return NextResponse.redirect(new URL('/admin/dashboard', req.url))
+  // console.log("isLoggedIn", isLoggedIn);
 
-export { auth as middleware } from "@/auth";
+  const isApiAuthRoutes = nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isPublicRoutes = publicRoutes.includes(nextUrl.pathname);
+  const isAuthRoutes = authRoutes.includes(nextUrl.pathname);
+
+  if (isApiAuthRoutes) {
+    return null;
+  }
+  if (isAuthRoutes) {
+    if (isLoggedIn) {
+      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+    }
+    return null;
+  }
+  if (!isLoggedIn && !isPublicRoutes) {
+    return Response.redirect(new URL("/auth/login", nextUrl));
+  }
+
+  return null;
+}
+
+// export { auth as middleware } from "@/auth";
 
 // import { auth } from "@/auth";
 // // export default NextAuth(authConfig).auth;
