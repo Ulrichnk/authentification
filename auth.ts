@@ -1,9 +1,13 @@
 import { authConfig } from "@/auth.config";
-import NextAuth from "next-auth";
+import NextAuth, { CredentialsSignin } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client"
+import { emit } from "process";
+import { getUser } from "./app/utils";
+import { getUserByEmail } from "./data/user";
+import { compare } from "bcrypt";
  
 const prisma = new PrismaClient()
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -12,14 +16,31 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
   providers: [
     Credentials({
+      name: "Credentials",
       credentials: {
-        username: { label: "Username" },
+        // username: { label: "Username",type: "text"},
         password: { label: "Password", type: "password" },
+        email: { label: "Email", type: "email" },
       },
-      // async authorize({ request }) {
-      //   const response = await fetch(request);
-      //   if (!response.ok) return null;
-      //   return (await response.json()) ?? null;
+      // authorize: async (credentials) =>{
+      //   const email = credentials.email as string | undefined;
+      //   const password = credentials.password as string | undefined;
+      //   if (!email || !password) {
+      //     throw new CredentialsSignin("Please enter your email and password.");
+      //   }
+      //   const user = await getUserByEmail(email)
+      //   if(!user){
+      //     // throw new CredentialsSignin(cause"No user found")
+      //     throw new Error("Invalid email or password")
+      //   }  if(!password){
+      //     // throw new CredentialsSignin(cause"No user found")
+      //     throw new Error("Invalid email or password")
+      //   }
+      //   const isMatched=await compare(password,user.password)
+      //   if(!isMatched){
+      //     throw new Error("Password did not match")
+      //   }
+
       // },
     }),
 
