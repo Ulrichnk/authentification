@@ -1,6 +1,7 @@
 "use server";
 
 import { signIn } from "@/auth";
+import { DEFAULT_LOGIN_REDIRECT } from "@/route";
 import { LoginSchema } from "@/type";
 import { AuthError } from "next-auth";
 import { z } from "zod";
@@ -16,11 +17,14 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
 
   const { email, password } = validateFields.data;
   try {
-    await signIn("credentials", { email, password, redirect: false});
+    await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
 
-    return { success: true };
+    return { success: "true" };
   } catch (error) {
-    console.log("votre erreur",error);
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
@@ -29,5 +33,7 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
           return { error: "Something went wrong." };
       }
     }
+    return { error: "Something went wrong with the type." };
+
   }
 };

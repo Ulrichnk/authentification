@@ -16,7 +16,8 @@ import { Input } from "@/components/ui/input";
 
 import { login } from "@/actions/login";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { startTransition, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { startTransition, useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import FormError from "./form-error";
 import FormSuccess from "./form-success";
@@ -27,6 +28,7 @@ const LoginSchema = z.object({
 });
 
 export const LoginForm: React.FC = () => {
+  const router = useRouter();
   const [isPending, setIsPending] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -48,7 +50,11 @@ export const LoginForm: React.FC = () => {
     });
     // return <Alert>Check the console for form data.</Alert>;
   }
-
+  useEffect(() => {
+    if (success == "true") {
+      router.push("/settings");
+    }
+  }, [success]);
   return (
     <CardWrapper
       backButtonLabel="Create an account"
