@@ -17,7 +17,7 @@ const LogSocial = ({ ...props }) => {
           className={buttonVariants({ size: "icon", variant: "ghost1" })}
         />
       </Button>
-      <Button variant="outline" type="submit" name="action" value="tik_tok">
+      <Button variant="outline" type="submit" name="action" value="TiTok">
         <FaTiktok
           className={buttonVariants({ size: "icon", variant: "ghost1" })}
         />

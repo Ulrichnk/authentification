@@ -1,7 +1,9 @@
 import bcrypt from "bcryptjs";
 import { NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
+import TikTokProvider from "next-auth/providers/tiktok";
 import { getUserByEmail } from "./data/user";
 import { LoginSchema } from "./type";
 export default {
@@ -44,5 +46,29 @@ export default {
         },
       },
     }),
+    // TikTok,
+    // facebook,
+    FacebookProvider({
+      clientId: process.env.AUTH_FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.AUTH_FACEBOOK_CLIENT_SECRET,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
+    }),
+    // TikTokProvider({
+    //   clientId: process.env.AUTH_TIKTOK_CLIENT_ID,
+    //   clientSecret: process.env.AUTH_TIKTOK_CLIENT_SECRET,
+    //   authorization: {
+    //     params: {
+    //       prompt: "consent",
+    //       access_type: "offline",
+    //       response_type: "code",
+    //     },
+    //   },
+    // }),
   ], // Add providers with an empty array for now
 } satisfies NextAuthConfig;

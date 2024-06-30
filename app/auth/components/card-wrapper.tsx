@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import React from "react";
 import LogSocial from "./login-social";
@@ -18,6 +19,7 @@ interface cardWrapperProps {
   backButtonLabel: string;
   BackButtonRef: string;
   showSocial?: boolean;
+  className?: string;
 }
 export const CardWrapper = ({
   children,
@@ -26,18 +28,25 @@ export const CardWrapper = ({
   backButtonLabel,
   BackButtonRef,
   showSocial,
+  className,
 }: cardWrapperProps) => {
   return (
-    <Card className="shadow-md">
+    <Card className={cn(className, "shadow-md")}>
       <CardHeader className="flex items-center">
         <CardTitle>{headerLabel}</CardTitle>
         <CardDescription>{headerDescription}</CardDescription>
       </CardHeader>
-      <CardContent>{children}</CardContent>
-      {showSocial && (
+      <CardContent >{children}</CardContent>
+      {showSocial ? (
         <CardFooter className="flex flex-col space-y-2">
           <LogSocial />
 
+          <Button variant="link">
+            <Link href={BackButtonRef}>{backButtonLabel}</Link>
+          </Button>
+        </CardFooter>
+      ) : (
+        <CardFooter className="flex flex-col space-y-2">
           <Button variant="link">
             <Link href={BackButtonRef}>{backButtonLabel}</Link>
           </Button>

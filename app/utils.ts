@@ -24,7 +24,7 @@ export async function doSocialLogin(formData: any) {
   const action = formData.get("action");
   console.log(action);
   if (action) {
-    await signIn(action, { redirectTo: "/" });
+    await signIn(action, { redirectTo: "/settings" });
   }
 }
 

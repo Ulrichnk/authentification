@@ -54,7 +54,7 @@ export const LoginForm: React.FC = () => {
     if (success == "true") {
       router.push("/settings");
     }
-  }, [success]);
+  }, [success,setSuccess]);
   return (
     <CardWrapper
       backButtonLabel="Create an account"
