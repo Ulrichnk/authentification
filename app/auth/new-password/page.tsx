@@ -1,6 +1,6 @@
 import ResetPasswordForm from "../components/reset-password-form";
 
-const ResetPasswordPage = () => {
+export default function ResetPasswordPage () {
   return (
     <div className="flex items-center justify-center w-full h-screen">
       <ResetPasswordForm />
@@ -8,4 +8,3 @@ const ResetPasswordPage = () => {
   );
 };
 
-export default ResetPasswordPage;

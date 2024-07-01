@@ -1,11 +1,12 @@
+import { Suspense } from "react";
 import LoginForm from "../components/login-form";
 
-const LoginPage = () => {
+export default function LoginPage () {
   return (
     <div className="w-full h-screen flex items-center justify-center">
-      <LoginForm />
+      <Suspense>      <LoginForm />
+</Suspense>
     </div>
   );
 };
 
-export default LoginPage;

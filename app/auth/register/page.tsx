@@ -1,12 +1,12 @@
-import React from 'react'
+import { Suspense } from 'react'
 import RegisterForm from '../components/register-form'
 
-const RegisterPage = () => {
+export default function RegisterPage () {
   return (
     <div className="w-full h-screen flex items-center justify-center">
-      <RegisterForm/>
+      <Suspense>      <RegisterForm/>
+</Suspense>
     </div>
   )
 }
 
-export default RegisterPage
