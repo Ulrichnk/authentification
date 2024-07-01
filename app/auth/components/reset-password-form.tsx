@@ -3,7 +3,7 @@ import { CardWrapper } from "./card-wrapper";
 
 import { z } from "zod";
 
-import { login } from "@/actions/login";
+import { reset } from "@/actions/reset";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,41 +14,32 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { ResetPasswordSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { startTransition, useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import FormError from "./form-error";
 import FormSuccess from "./form-success";
 
-const LoginSchema = z.object({
-  email: z.string().email({ message: "Email is required" }),
-  password: z.string().min(1, { message: "Password is required" }),
-});
-
-export const LoginForm: React.FC = () => {
-  const searchParams = useSearchParams();
-  const urlError =
-    searchParams.get("error") === "OAuthAccountNotLinked"
-      ? "Email already in use with different provider "
-      : "";
+export const ResetPasswordForm: React.FC = () => {
   const router = useRouter();
   const [isPending, setIsPending] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
-    defaultValues: { email: "", password: "" },
+  const form = useForm<z.infer<typeof ResetPasswordSchema>>({
+    resolver: zodResolver(ResetPasswordSchema),
+    defaultValues: { password: "" },
   });
 
-  function onSubmit(data: z.infer<typeof LoginSchema>) {
+  function onSubmit(data: z.infer<typeof ResetPasswordSchema>) {
     // console.log(data.email, data.password);
     // console.log(data);
     setError("");
     setSuccess("");
     startTransition(() => {
-      login(data).then((response) => {
+      reset(data).then((response) => {
         setError(response.error);
         setSuccess(response.success);
       });
@@ -62,32 +53,12 @@ export const LoginForm: React.FC = () => {
   }, [success, setSuccess]);
   return (
     <CardWrapper
-      backButtonLabel="Create an account"
-      BackButtonRef="/auth/register"
-      headerDescription="Welcome back! Please login to your account."
-      showSocial
-      headerLabel="Login">
+      backButtonLabel="Reset you password"
+      BackButtonRef="/auth/login"
+      headerDescription="Welcome back! Please reset your password."
+      headerLabel="Forgot your password?">
       <Form {...form}>
         <form className="space-y-3" onSubmit={form.handleSubmit(onSubmit)}>
-          <FormField
-            name="email"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="email">Email</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    disabled={isPending}
-                    name="email"
-                    placeholder=" Input your email"
-                    type="email"></Input>
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             name="password"
             control={form.control}
@@ -102,7 +73,11 @@ export const LoginForm: React.FC = () => {
                     placeholder="********"
                     type="password"></Input>
                 </FormControl>
-                <Button variant="link" size="sm" asChild className=" px-0 font-normal text-sm">
+                <Button
+                  variant="link"
+                  size="sm"
+                  asChild
+                  className=" px-0 font-normal text-sm">
                   <Link href="/auth/forgot-password">Forgot Password?</Link>
                 </Button>
 
@@ -110,10 +85,10 @@ export const LoginForm: React.FC = () => {
               </FormItem>
             )}
           />
-          <FormError message={error || urlError} />
+          <FormError message={error} />
           <FormSuccess message={success} />
           <Button type="submit" className=" w-full " disabled={isPending}>
-            Login
+          Reset password
           </Button>
         </form>{" "}
       </Form>
@@ -121,4 +96,4 @@ export const LoginForm: React.FC = () => {
   );
 };
 
-export default LoginForm;
+export default ResetPasswordForm;

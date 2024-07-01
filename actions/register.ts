@@ -2,8 +2,10 @@
 
 import { getUserByEmail } from "@/data/user";
 import { db } from "@/lib/db";
-import { RegisterSchema } from "@/type";
-import bcrypt from "bcrypt";
+import { sendVerificationEmail } from "@/lib/mail";
+import { generateVerficationToken } from "@/lib/tokens";
+import { RegisterSchema } from "@/schema";
+import bcrypt from "bcryptjs";
 import { z } from "zod";
 
 export const Register = async (values: z.infer<typeof RegisterSchema>) => {
@@ -21,8 +23,10 @@ export const Register = async (values: z.infer<typeof RegisterSchema>) => {
     return { error: "Email already in use" };
   }
   await db.user.create({ data: { name, email, password: hash } });
+  const verficationToken = await generateVerficationToken(email);
+  await sendVerificationEmail(verficationToken.email, verficationToken.token);
 
   // TODO:verification token email
 
-  return { success: "User Created" };
+  return { success: "Confirmation email sent" };
 };

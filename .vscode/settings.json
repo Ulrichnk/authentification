@@ -8,6 +8,9 @@
     "PARFAITE",
     "shadcn",
     "signin",
-    "trpc"
+    "tailwindcss",
+    "trpc",
+    "uuidv",
+    "verfication"
   ]
 }
