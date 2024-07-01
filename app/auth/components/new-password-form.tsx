@@ -3,7 +3,7 @@ import { CardWrapper } from "./card-wrapper";
 
 import { z } from "zod";
 
-import { reset } from "@/actions/reset";
+import { newPassword } from "@/actions/new-password";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,32 +14,35 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ResetPasswordSchema } from "@/schema";
+import { NewPasswordSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { startTransition, useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import FormError from "./form-error";
 import FormSuccess from "./form-success";
 
-export const ResetPasswordForm: React.FC = () => {
+export const NewPasswordForm: React.FC = () => {
+  const searchParams=useSearchParams();
+  const token=searchParams.get("token");
+
   const router = useRouter();
   const [isPending, setIsPending] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
-  const form = useForm<z.infer<typeof ResetPasswordSchema>>({
-    resolver: zodResolver(ResetPasswordSchema),
+  const form = useForm<z.infer<typeof NewPasswordSchema>>({
+    resolver: zodResolver(NewPasswordSchema),
     defaultValues: { password: "" },
   });
 
-  function onSubmit(data: z.infer<typeof ResetPasswordSchema>) {
+  function onSubmit(data: z.infer<typeof NewPasswordSchema>) {
     // console.log(data.email, data.password);
     // console.log(data);
     setError("");
     setSuccess("");
     startTransition(() => {
-      reset(data).then((response) => {
+      newPassword(data,token).then((response) => {
         setError(response.error);
         setSuccess(response.success);
       });
@@ -88,7 +91,7 @@ export const ResetPasswordForm: React.FC = () => {
           <FormError message={error} />
           <FormSuccess message={success} />
           <Button type="submit" className=" w-full " disabled={isPending}>
-          Reset password
+            Reset password
           </Button>
         </form>{" "}
       </Form>
@@ -96,4 +99,4 @@ export const ResetPasswordForm: React.FC = () => {
   );
 };
 
-export default ResetPasswordForm;
+export default NewPasswordForm;

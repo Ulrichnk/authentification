@@ -1,12 +1,12 @@
 import { Suspense } from "react";
-import ResetPasswordForm from "../components/reset-password-form";
+import NewPasswordForm from "../components/new-password-form";
 
-export default function ResetPasswordPage() {
+export default function newPasswordPage() {
   return (
     <div className="flex items-center justify-center w-full h-screen">
       <Suspense>
         {" "}
-        <ResetPasswordForm />
+        <NewPasswordForm />
       </Suspense>
     </div>
   );
