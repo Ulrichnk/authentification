@@ -3,6 +3,7 @@ import { CardWrapper } from "./card-wrapper";
 
 import { z } from "zod";
 
+import { login } from "@/actions/login";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -13,10 +14,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
-import { login } from "@/actions/login";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { startTransition, useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import FormError from "./form-error";
@@ -28,6 +27,11 @@ const LoginSchema = z.object({
 });
 
 export const LoginForm: React.FC = () => {
+  const searchParams = useSearchParams();
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email already in use with different provider "
+      : "";
   const router = useRouter();
   const [isPending, setIsPending] = useTransition();
   const [error, setError] = useState<string | undefined>("");
@@ -54,7 +58,7 @@ export const LoginForm: React.FC = () => {
     if (success == "true") {
       router.push("/settings");
     }
-  }, [success,setSuccess]);
+  }, [success, setSuccess]);
   return (
     <CardWrapper
       backButtonLabel="Create an account"
@@ -102,7 +106,7 @@ export const LoginForm: React.FC = () => {
               </FormItem>
             )}
           />
-          <FormError message={error} />
+          <FormError message={error || urlError} />
           <FormSuccess message={success} />
           <Button type="submit" className=" w-full " disabled={isPending}>
             Login

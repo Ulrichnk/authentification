@@ -14,10 +14,10 @@ import { db } from "./lib/db";
 // const prisma = new PrismaClient();
 export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: { 
-    signIn: "/auth/slogin",
+    signIn: "/auth/login",
     error:"/auth/error",
-    signOut: "/auth/signout",
-    newUser: "/auth/signup",
+    // signOut: "/auth/signout",
+    // newUser: "/auth/signup",
    },
   events: {
     async linkAccount({ user }) {
