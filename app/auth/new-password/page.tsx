@@ -1,10 +1,13 @@
+import { Suspense } from "react";
 import ResetPasswordForm from "../components/reset-password-form";
 
-export default function ResetPasswordPage () {
+export default function ResetPasswordPage() {
   return (
     <div className="flex items-center justify-center w-full h-screen">
-      <ResetPasswordForm />
+      <Suspense>
+        {" "}
+        <ResetPasswordForm />
+      </Suspense>
     </div>
   );
-};
-
+}
