@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { LoginSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -22,11 +23,6 @@ import { useForm } from "react-hook-form";
 import FormError from "./form-error";
 import FormSuccess from "./form-success";
 
-const LoginSchema = z.object({
-  email: z.string().email({ message: "Email is required" }),
-  password: z.string().min(1, { message: "Password is required" }),
-});
-
 export const LoginForm: React.FC = () => {
   const searchParams = useSearchParams();
   const urlError =
@@ -34,6 +30,8 @@ export const LoginForm: React.FC = () => {
       ? "Email already in use with different provider "
       : "";
   const router = useRouter();
+
+  const [showTwoFactor, setShowTwoFactor] = useState(false);
   const [isPending, setIsPending] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -48,10 +46,23 @@ export const LoginForm: React.FC = () => {
     setError("");
     setSuccess("");
     startTransition(() => {
-      login(data).then((response) => {
-        setError(response.error);
-        setSuccess(response.success);
-      });
+      login(data)
+        .then((response) => {
+          if (response?.error) {
+            form.reset();
+            setError(response.error);
+          }
+          if (response?.success) {
+            form.reset();
+            setSuccess(response.success);
+          }
+          if (response?.twoFactor) {
+            setShowTwoFactor(true);
+          }
+        })
+        .catch((error) => {
+          setError("Something went wrong !");
+        });
     });
     // return <Alert>Check the console for form data.</Alert>;
   }
@@ -69,6 +80,29 @@ export const LoginForm: React.FC = () => {
       headerLabel="Login">
       <Form {...form}>
         <form className="space-y-3" onSubmit={form.handleSubmit(onSubmit)}>
+          {showTwoFactor && (
+            <>
+             <FormField
+            name="code"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="code">code</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    disabled={isPending}
+                    name="code"
+                    placeholder=" 12345"
+                    ></Input>
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          /></>
+          )}
+          { !showTwoFactor &&(<>
           <FormField
             name="email"
             control={form.control}
@@ -102,18 +136,22 @@ export const LoginForm: React.FC = () => {
                     placeholder="********"
                     type="password"></Input>
                 </FormControl>
-                <Button variant="link" size="sm" asChild className=" px-0 font-normal text-sm">
+                <Button
+                  variant="link"
+                  size="sm"
+                  asChild
+                  className=" px-0 font-normal text-sm">
                   <Link href="/auth/forgot-password">Forgot Password?</Link>
                 </Button>
 
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /></>)}
           <FormError message={error || urlError} />
           <FormSuccess message={success} />
           <Button type="submit" className=" w-full " disabled={isPending}>
-            Login
+            {showTwoFactor ? "Confirm" : "Login"}
           </Button>
         </form>{" "}
       </Form>

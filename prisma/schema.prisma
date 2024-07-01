@@ -34,7 +34,10 @@ model User {
   sessions      Session[]
   // Optional for WebAuthn support
   Authenticator Authenticator[]
- 
+
+  isTwoFactorEnabled Boolean @default(false)
+  twoFactorConfirmation TwoFactorConfirmation?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -103,4 +106,21 @@ model PasswordRestToken {
   expires    DateTime
 
   @@unique([email, token])
+}
+
+model TwoFactorToken{
+  id     String @id @default(cuid())
+  email  String
+  token      String @unique
+  expires    DateTime
+
+  @@unique([email, token])
+
+}
+model TwoFactorConfirmation {
+  id     String @id @default(cuid())
+  userId  String
+  user     User @relation(fields:[userId], references:[id], onDelete: Cascade)
+  
+  @@unique([userId])
 }
