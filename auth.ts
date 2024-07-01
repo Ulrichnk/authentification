@@ -13,12 +13,6 @@ import { db } from "./lib/db";
 // }
 // const prisma = new PrismaClient();
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  pages: { 
-    signIn: "/auth/login",
-    error:"/auth/error",
-    // signOut: "/auth/signout",
-    // newUser: "/auth/signup",
-   },
   events: {
     async linkAccount({ user }) {
       await db.user.update({
@@ -30,10 +24,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
   },
   callbacks: {
-    // async signIn({ user }) {
-    //   if (user.id == undefined) {
-    //     return false;
-    //   }
+    async signIn({ user, account }) {
+      // console.log({ user, account });
+      //allow OAuth without email verification
+      if (account?.provider !== "credentials") {
+        return true;
+      }
+      //Prevent sign in without email verification
+      if (user.id) {
+        const existingUser = await getUserById(user.id);
+        if (!existingUser?.emailVerified) {
+          return false;
+        }
+      }
+      //TODO: Add 2FA check
+      return true;
+    },
     //   const existingUser = await getUserById(user.id);
     //   if (!existingUser || !existingUser.emailVerified) {
     //     return false;
@@ -41,7 +47,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     //   return true;
     // },
     async session({ token, session }) {
-      console.log({ sessionToken: token });
+      // console.log({ sessionToken: token });
       if (session.user && token.sub) {
         session.user.id = token.sub;
       }

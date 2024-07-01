@@ -4,8 +4,14 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
 import { getUserByEmail } from "./data/user";
-import { LoginSchema } from "./type";
+import { LoginSchema } from "./schema";
 export default {
+  pages: {
+    signIn: "/auth/login",
+    error: "/auth/error",
+    // signOut: "/auth/signout",
+    // newUser: "/auth/signup",
+  },
   providers: [
     // CredentialsProvider({
     //   async authorize(credentials) {
@@ -47,35 +53,23 @@ export default {
     // }),
     CredentialsProvider({
       async authorize(credentials) {
-        if (credentials == null) {
-          throw new Error("Invalid Credentials");
-        }
-        try {
-          const validatedFields = LoginSchema.safeParse(credentials);
-          if (!validatedFields.success) {
-            throw new Error("Invalid credentials");
-          } else {
-            const { email, password } = validatedFields.data;
-            const user = await getUserByEmail(email);
-            if (!user) {
-              throw new Error("User Don't found");
-            }
-            if (!user.password) {
-              throw new Error(
-                "Email already exists, please login with google or facebook"
-              );
-            }
-            const passwordMatch = await bcrypt.compare(password, user.password);
-            if (!passwordMatch) {
-              throw new Error("Password don't match, please try again.");
-            }
-            return user;
-          }
-        } catch (e) {
-          // console.log(e);
-          throw new Error("Credentials null");
+        const validatedFields = LoginSchema.safeParse(credentials);
+        if (!validatedFields.success) {
           return null;
+        } else {
+          const { email, password } = validatedFields.data;
+          const user = await getUserByEmail(email);
+          if (!user || !user.password) {
+            return null;
+          }
+
+          const passwordMatch = await bcrypt.compare(password, user.password);
+          if (!passwordMatch) {
+            return null;
+          }
+          return user;
         }
+        return null;
       },
     }),
     GoogleProvider({

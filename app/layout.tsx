@@ -1,4 +1,4 @@
-"use ";
+"use server ";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -20,6 +20,7 @@ export default function RootLayout({
 }>) {
   // const [session, setSession] = useState<Session | null>(null);
   // useEffect(() => {}, [session]);
+  console.log(process.env.SITE_URL);
 
   return (
     <html lang="en">

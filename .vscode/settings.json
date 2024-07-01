@@ -9,6 +9,8 @@
     "shadcn",
     "signin",
     "tailwindcss",
-    "trpc"
+    "trpc",
+    "uuidv",
+    "verfication"
   ]
 }
