@@ -1,17 +1,20 @@
-import { logout } from "@/actions/logout";
-import { auth, signOut } from "@/auth";
-import { Button } from "@/components/ui/button";
+"use client";
+import LogoutButton from "@/app/auth/components/logout-button";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import ProtectedLayout from "../layout";
 
 const SettingsPages = async () => {
-  const session = await auth();
+  // const [user, setUser] = useState<User | undefined | null>();
+  // useCurrentUser().then((res) => setUser(res));
+  const user = await useCurrentUser();
   return (
-    <div>
-      {JSON.stringify(session)}
-      <form
-        action={logout}>
+    <ProtectedLayout>
+      {JSON.stringify(user)}
+      {/* <form action={logout}>
         <Button type="submit">Sign out</Button>
-      </form>
-    </div>
+      </form> */}
+      <LogoutButton />
+    </ProtectedLayout>
   );
 };
 
