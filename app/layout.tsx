@@ -1,6 +1,8 @@
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import MaxWidthWrapper from "./components/MaxWidthWrapper";
+import Navbar from "./components/Navbar";
 import { ThemeProvider } from "./components/themeProvider";
 import "./globals.css";
 import Navigation from "./navigation/navigation";
@@ -29,8 +31,11 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange>
-          <Navigation />
-          {children}
+          <MaxWidthWrapper>
+            {" "}
+            <Navigation />
+            {children}
+          </MaxWidthWrapper>
         </ThemeProvider>
       </body>
     </html>

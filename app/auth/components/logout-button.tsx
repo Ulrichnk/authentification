@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button";
 
 const LogoutButton = () => {
   return (
-    <>
-      <Button variant="default" size='sm' type="submit" onClick={logout}>
+    <form action={logout}>
+      <Button variant="default" size="sm" type="submit">
         Sign out
       </Button>
-    </>
+    </form>
   );
 };
 

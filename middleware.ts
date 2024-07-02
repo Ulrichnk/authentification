@@ -19,6 +19,8 @@ export const config = {
 export async function middleware(req: any) {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
+  // const session = req.auth?.session;
+  // console.log("SESSION", session);
   // console.log("ROUTE", req.nextUrl.pathname);
   // // return NextResponse.redirect(new URL('/admin/dashboard', req.url))
   // console.log("isLoggedIn", isLoggedIn);
