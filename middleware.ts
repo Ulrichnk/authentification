@@ -7,6 +7,7 @@ import {
   authRoutes,
   publicRoutes,
 } from "./route";
+import { NextRequest } from "next/server";
 
 const { auth } = NextAuth(authConfig);
 
@@ -18,29 +19,29 @@ export const config = {
 
 export async function middleware(req: any) {
   const { nextUrl } = req;
-  const isLoggedIn = !!req.auth;
+  const isLoggedIn = await auth();
   // const session = req.auth?.session;
-  // console.log("SESSION", session);
-  // console.log("ROUTE", req.nextUrl.pathname);
+  console.log("SESSION",isLoggedIn);
+  // console.log("Cookies", session);
   // // return NextResponse.redirect(new URL('/admin/dashboard', req.url))
   // console.log("isLoggedIn", isLoggedIn);
 
   const isApiAuthRoutes = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoutes = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoutes = authRoutes.includes(nextUrl.pathname);
-
-  if (isApiAuthRoutes) {
-    return null;
-  }
-  if (isAuthRoutes) {
-    if (isLoggedIn) {
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
-    }
-    return null;
-  }
-  if (!isLoggedIn && !isPublicRoutes) {
-    return Response.redirect(new URL("/auth/login", nextUrl));
-  }
+  
+  // if (isApiAuthRoutes) {
+  //   return null;
+  // }
+  // if (isAuthRoutes) {
+  //   if (isLoggedIn) {
+  //     return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+  //   }
+  //   return null;
+  // }
+  // if (!isLoggedIn && !isPublicRoutes) {
+  //   return Response.redirect(new URL("/auth/login", nextUrl));
+  // }
 
   return null;
 }

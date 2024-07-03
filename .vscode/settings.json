@@ -10,6 +10,7 @@
     "signin",
     "tailwindcss",
     "trpc",
+    "tseslint",
     "uuidv",
     "verfication"
   ]

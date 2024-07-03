@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   // const [session, setSession] = useState<Session | null>(null);
   // useEffect(() => {}, [session]);
-  console.log(process.env.SITE_URL);
+  // console.log(process.env.SITE_URL);
 
   return (
     <html lang="en">
@@ -31,11 +31,11 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange>
-          <MaxWidthWrapper>
+          {/* <MaxWidthWrapper> */}
             {" "}
             <Navigation />
             {children}
-          </MaxWidthWrapper>
+          {/* </MaxWidthWrapper> */}
         </ThemeProvider>
       </body>
     </html>

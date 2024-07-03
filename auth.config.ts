@@ -5,6 +5,7 @@ import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
 import { getUserByEmail } from "./data/user";
 import { LoginSchema } from "./schema";
+import credentials from "next-auth/providers/credentials";
 export default {
   pages: {
     signIn: "/auth/login",
@@ -51,7 +52,7 @@ export default {
     //     }
     //   },
     // }),
-    CredentialsProvider({
+    credentials({
       async authorize(credentials) {
         const validatedFields = LoginSchema.safeParse(credentials);
         if (!validatedFields.success) {
