@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FormError from "../auth/components/form-error";
+import MaxWidthWrapper from "../components/MaxWidthWrapper";
 
 const DashboardPages = async () => {
   const session = await auth();
@@ -12,7 +13,7 @@ const DashboardPages = async () => {
     );
   }
   return (
-    <div>
+    <MaxWidthWrapper>
       <Tabs defaultValue="account" className="w-[400px]">
         <TabsList>
           <TabsTrigger value="account">Account</TabsTrigger>
@@ -23,7 +24,7 @@ const DashboardPages = async () => {
         </TabsContent>
         <TabsContent value="password">Change your password here.</TabsContent>
       </Tabs>
-    </div>
+    </MaxWidthWrapper>
   );
 };
 
