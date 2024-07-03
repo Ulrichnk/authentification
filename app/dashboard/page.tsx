@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FormError from "../auth/components/form-error";
 
 const DashboardPages = async () => {
@@ -10,7 +11,20 @@ const DashboardPages = async () => {
       </div>
     );
   }
-  return <div>dashboard</div>;
+  return (
+    <div>
+      <Tabs defaultValue="account" className="w-[400px]">
+        <TabsList>
+          <TabsTrigger value="account">Account</TabsTrigger>
+          <TabsTrigger value="password">Password</TabsTrigger>
+        </TabsList>
+        <TabsContent value="account">
+          Make changes to your account here.
+        </TabsContent>
+        <TabsContent value="password">Change your password here.</TabsContent>
+      </Tabs>
+    </div>
+  );
 };
 
 export default DashboardPages;
